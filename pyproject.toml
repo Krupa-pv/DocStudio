@@ -5,12 +5,15 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agent-orch"
 version = "0.1.0"
-description = "AgentOrch: multi-agent research orchestration with Azure OpenAI"
+description = "SimplifyResearch: multi-agent research orchestration with Azure OpenAI"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "pydantic>=2.5",
-  "python-dotenv>=1.0"
+  "python-dotenv>=1.0",
+  "numpy",
+  "scikit-learn",
+  "openai"
 ]
 
 [tool.setuptools.packages.find]
