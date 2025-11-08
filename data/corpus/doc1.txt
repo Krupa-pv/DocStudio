@@ -1,0 +1,1 @@
+RAG systems reduce hallucinations by grounding responses in retrieved documents.

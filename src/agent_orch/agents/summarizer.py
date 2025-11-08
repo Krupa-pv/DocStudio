@@ -14,6 +14,7 @@ class SummaryResult:
     summary: str
     used_docs: List[Tuple[str, float]]  #(doc_id, score)
     llm: ChatResult
+    context_str: str | None = None
 
 
 class SummarizerAgent:
@@ -101,5 +102,6 @@ class SummarizerAgent:
             summary=llm_res.text,
             used_docs=[(h.doc.doc_id, h.score) for h in hits],
             llm=llm_res,
+            context_str=context,
         )
     

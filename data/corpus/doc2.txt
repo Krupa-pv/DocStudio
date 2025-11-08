@@ -1,0 +1,1 @@
+Maximal Marginal Relevance (MMR) improves retrieval diversity and reduces redundancy.
