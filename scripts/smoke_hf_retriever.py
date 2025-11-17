@@ -1,6 +1,6 @@
-from agent_orch.retrieval import Document
-from agent_orch.retrieval.hf_embeddings_retriever import HFEmbeddingsRetriever
-from agent_orch.retrieval.hf_embedder import HFEmbedder
+from doc_studio.retrieval import Document
+from doc_studio.retrieval.hf_embeddings_retriever import HFEmbeddingsRetriever
+from doc_studio.retrieval.hf_embedder import HFEmbedder
 
 def main():
     r = HFEmbeddingsRetriever(HFEmbedder("sentence-transformers/all-MiniLM-L6-v2"))

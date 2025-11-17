@@ -4,9 +4,9 @@ import json
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from agent_orch.core.llm import LLMClient
-from agent_orch.core.types import ChatMessage, Role, ChatResult
-from agent_orch.retrieval import ScoredDocument
+from doc_studio.core.llm import LLMClient
+from doc_studio.core.types import ChatMessage, Role, ChatResult
+from doc_studio.retrieval import ScoredDocument
 
 
 @dataclass
@@ -65,7 +65,10 @@ class AnalystAgent:
     ) -> CritiqueResult:
         ctx = context_override or self._pack_context(hits)
 
-        # Ask the model to output JSON for easy parsing 
+        # rewrite line; avoids backslashes in f-string expr
+        rewrite_line = '"rewrite": "string"' if self.do_rewrite else '"rewrite": null'
+
+        # user prompt; strict json
         user = (
             "You will evaluate a SUMMARY against a QUERY and CONTEXT (ground-truth snippets with IDs like [d4]).\n"
             "1) Score faithfulness: are all claims supported by the provided CONTEXT? Penalize any claim that cannot be grounded.\n"
@@ -79,7 +82,7 @@ class AnalystAgent:
             '  "coverage": 0.00,\n'
             '  "clarity": 0.00,\n'
             '  "justification": "string",\n'
-            f'  {"\"rewrite\": \"string\"" if self.do_rewrite else "\"rewrite\": null"}\n'
+            f"  {rewrite_line}\n"
             "}\n\n"
             f"QUERY:\n{query}\n\n"
             f"CONTEXT:\n{ctx}\n\n"

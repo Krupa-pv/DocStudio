@@ -3,17 +3,28 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agent-orch"
+name = "doc-studio"
 version = "0.1.0"
-description = "SimplifyResearch: multi-agent research orchestration with Azure OpenAI"
+description = "DocStudio: multi-agent research orchestration with Azure OpenAI"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-  "pydantic>=2.5",
-  "python-dotenv>=1.0",
-  "numpy",
+  "fastapi",
+  "uvicorn[standard]",
+  "streamlit",
+  "httpx",
+  "openai>=1.40.0",
+  "transformers",
+  "sentence-transformers",
+  "faiss-cpu",
   "scikit-learn",
-  "openai"
+  "numpy",
+  "pandas",
+  "python-dotenv",
+  "mlflow",
+  "ruff",
+  "mypy",
+  "pytest"
 ]
 
 [tool.setuptools.packages.find]

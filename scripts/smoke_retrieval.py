@@ -1,4 +1,4 @@
-from agent_orch.retrieval import Document, TfidfRetriever
+from doc_studio.retrieval import Document, TfidfRetriever
 
 def main():
     retriever = TfidfRetriever()

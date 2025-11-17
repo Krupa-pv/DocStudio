@@ -1,7 +1,7 @@
 import os
 import logging
-from agent_orch.core.config import Settings
-from agent_orch.core.logging import setup_logging
+from doc_studio.core.config import Settings
+from doc_studio.core.logging import setup_logging
 
 
 os.environ["OPENAI_API_KEY"] = os.environ.get("OPENAI_API_KEY", "test_key")

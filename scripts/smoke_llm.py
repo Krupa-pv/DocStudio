@@ -1,8 +1,8 @@
 import os
-from agent_orch.core.config import Settings
-from agent_orch.core.logging import setup_logging
-from agent_orch.core.llm import LLMClient
-from agent_orch.core.types import ChatMessage, Role
+from doc_studio.core.config import Settings
+from doc_studio.core.logging import setup_logging
+from doc_studio.core.llm import LLMClient
+from doc_studio.core.types import ChatMessage, Role
 
 
 def main() -> None:

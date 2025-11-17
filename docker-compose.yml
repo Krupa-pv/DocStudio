@@ -1,0 +1,32 @@
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/doc_studio/api/Dockerfile
+    env_file: .env
+    environment:
+      - DOCSTUDIO_SQLITE=1
+      - DOCSTUDIO_DB=/data/docstudio.db
+      - MLFLOW_TRACKING_URI=file:/mlruns
+    volumes:
+      - ./src:/app/src 
+      - ./data:/data
+      - ./mlruns:/mlruns
+    ports: ["8000:8000"]
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: .
+      dockerfile: src/doc_studio/ui/Dockerfile
+    env_file: .env
+    environment:
+      - STREAMLIT_API_URL=http://api:8000
+    volumes:
+      - ./src:/app/src
+      - ./ui:/app/ui
+      - ./data:/data
+    ports: ["8501:8501"]
+    depends_on: [api]
+    restart: unless-stopped

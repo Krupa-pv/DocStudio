@@ -3,11 +3,12 @@ import csv, os, time
 from dataclasses import dataclass
 from typing import Optional, Dict, Any, List
 
-from agent_orch.core.llm import LLMClient
-from agent_orch.core.types import ChatMessage, Role
-from agent_orch.retrieval import Retriever, Document, ScoredDocument
-from agent_orch.agents.summarizer import SummarizerAgent, SummaryResult  # <-- new mmr version
-from agent_orch.agents.analyst import AnalystAgent, CritiqueResult
+from doc_studio.core.llm import LLMClient
+from doc_studio.core.types import ChatMessage, Role
+from doc_studio.retrieval import Retriever, Document, ScoredDocument
+from doc_studio.agents.summarizer import SummarizerAgent, SummaryResult  # <-- new mmr version
+from doc_studio.agents.analyst import AnalystAgent, CritiqueResult
+from doc_studio.tracking.run_logger import log_run
 
 
 @dataclass
@@ -40,7 +41,7 @@ class Orchestrator:
         self,
         retriever: Retriever,
         llm: LLMClient,
-        emb_fn=None,                     # new: pass HFEmbedder for MMR
+        emb_fn=None,        # new: pass HFEmbedder for MMR
         cfg: Optional[OrchestratorConfig] = None,
         reward_log_path: str = "data/rewards.csv",
     ) -> None:
@@ -194,7 +195,41 @@ class Orchestrator:
         # ---- compute + log reward ----
         reward = self._compute_reward(final_crit)
         self._log_reward(query, arm_name, reward, final_crit, attempts)
+        
+        
+        # build params for logging
+        p_k = arm_params.get("k", self._base_k)
+        p_mmr = arm_params.get("mmr_lambda", getattr(self._summarizer, "mmr_lambda", 0.6))
+        params_for_log = {
+            "arm": arm_name,
+            "k": p_k,
+            "mmr_lambda": p_mmr,
+            "retriever": "faiss_flatip",
+            "llm": "azure_gpt4o",
+            # "epsilon" could come from a planner; omit if not used here
+        }
 
+        # scores dict for logging
+        scores_for_log = {
+            "overall": float(final_crit.scores.overall),
+            "faithfulness": float(final_crit.scores.faithfulness),
+            "coverage": float(final_crit.scores.coverage),
+            "clarity": float(final_crit.scores.clarity),
+        }
+
+        # token + latency — we have critic totals; prompt/completion may be 0 if SDK doesn’t split
+        tok_prompt = 0
+        tok_completion = int(getattr(final_crit.llm, "total_tokens", 0))
+        latency_ms = int(getattr(final_crit.llm, "latency_ms", 0))
+
+        log_run(
+            query=query,
+            params=params_for_log,
+            scores=scores_for_log,
+            tokens_prompt=tok_prompt,
+            tokens_completion=tok_completion,
+            latency_ms=latency_ms,
+        )
         return OrchestratorResult(
             query=query,
             attempts=attempts,

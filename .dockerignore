@@ -1,0 +1,25 @@
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.dist/
+.build/
+
+# venv
+.venv/
+env/
+venv/
+
+# data/artifacts
+data/*.db
+mlruns/
+mlruns_*/
+*.faiss
+index.meta.jsonl
+
+# misc
+.DS_Store
+.git/
+.gitignore

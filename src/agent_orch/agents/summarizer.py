@@ -3,10 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Callable, Optional
 
-from agent_orch.core.llm import LLMClient
-from agent_orch.core.types import ChatMessage, Role, ChatResult
-from agent_orch.retrieval import Retriever, ScoredDocument
-from agent_orch.retrieval.mmr import MMR
+from doc_studio.core.llm import LLMClient
+from doc_studio.core.types import ChatMessage, Role, ChatResult
+from doc_studio.retrieval import Retriever, ScoredDocument
+from doc_studio.retrieval.mmr import MMR
 
 
 @dataclass
@@ -22,7 +22,7 @@ class SummarizerAgent:
     RAG summarizer:
       1)retrieve top-k docs from FAISS
       2) mmr rerank 
-      3)pack context into prompt (with [doc_id] headers)
+      3) pack context into prompt (with [doc_id] headers)
       4) ask llm for concise answers with inline citatinos 
     """
 

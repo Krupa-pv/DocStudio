@@ -1,9 +1,9 @@
 from __future__ import annotations
 import os, csv, glob, argparse, json
 from typing import Iterable
-from agent_orch.retrieval import Document
-from agent_orch.retrieval.hf_embedder import HFEmbedder
-from agent_orch.retrieval.faiss_retriever import FaissRetriever
+from doc_studio.retrieval import Document
+from doc_studio.retrieval.hf_embedder import HFEmbedder
+from doc_studio.retrieval.faiss_retriever import FaissRetriever
 
 # quick read helpers
 def _iter_txt_md(path:str)->Iterable[Document]:

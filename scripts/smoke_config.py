@@ -1,5 +1,5 @@
 import os
-from agent_orch.core.config import Settings
+from doc_studio.core.config import Settings
 
 
 cfg = Settings.load()

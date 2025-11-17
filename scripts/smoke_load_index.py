@@ -1,5 +1,5 @@
-from agent_orch.retrieval.hf_embedder import HFEmbedder
-from agent_orch.retrieval.faiss_retriever import FaissRetriever
+from doc_studio.retrieval.hf_embedder import HFEmbedder
+from doc_studio.retrieval.faiss_retriever import FaissRetriever
 
 def main():
     emb=HFEmbedder("BAAI/bge-small-en-v1.5")

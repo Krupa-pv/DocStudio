@@ -1,11 +1,11 @@
 import os
-from agent_orch.core.config import Settings
-from agent_orch.core.logging import setup_logging
-from agent_orch.core.llm import LLMClient
-from agent_orch.retrieval import Document, TfidfRetriever
-from agent_orch.agents import SummarizerAgent
-from agent_orch.retrieval.hf_embedder import HFEmbedder
-from agent_orch.retrieval.faiss_retriever import FaissRetriever
+from doc_studio.core.config import Settings
+from doc_studio.core.logging import setup_logging
+from doc_studio.core.llm import LLMClient
+from doc_studio.retrieval import Document, TfidfRetriever
+from doc_studio.agents import SummarizerAgent
+from doc_studio.retrieval.hf_embedder import HFEmbedder
+from doc_studio.retrieval.faiss_retriever import FaissRetriever
 
 def main():
     #uncomment below for no open ai api call for local tetsing:
