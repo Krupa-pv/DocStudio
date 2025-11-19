@@ -81,7 +81,7 @@ Prerequisites:
 1. Clone and Configure
 
 ```bash
-git clone https://github.com/yourusername/SimplifyResearch.git
+git clone https://github.com/Krupa-pv/DocStudio.git
 cd SimplifyResearch
 
 cp .env.example .env
