@@ -248,7 +248,7 @@ Edit .env or set environment variables:
 
 ## Technical Highlights
 
-This project demonstrates several advanced concepts in applied AI:
+This project uses several concepts in applied AI:
 
 **System Design**
 Multi-agent coordination with specialized roles (retrieval, generation, critique), modular architecture enabling independent component testing and replacement
