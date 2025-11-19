@@ -1,2 +1,0 @@
-{"doc_id": "d1", "text": "RAG systems reduce hallucinations by grounding responses in retrieved documents.", "meta": {"path": "data/corpus/doc1.txt"}}
-{"doc_id": "d2", "text": "Maximal Marginal Relevance (MMR) improves retrieval diversity and reduces redundancy.", "meta": {"path": "data/corpus/doc2.txt"}}

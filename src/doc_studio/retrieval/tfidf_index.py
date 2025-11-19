@@ -7,29 +7,28 @@ from sklearn.preprocessing import normalize
 
 from .interfaces import Document, ScoredDocument, Retriever
 
-## TODO: swap with embeddings later 
+"""
+vectorizatoin happens by finding all unique words across all docs and assigning a position 
+for each in unique word vector
+--> 
+represent each document as a vector with 1s and 0s in the position where that unique word 
+is present or not respectively
+--> 
+TF-IDF weighting: 
+term frequency (TF): how common word is
+inverse document frequency (IDF): how unique word is across docs
+"""
 
 class TfidfRetriever(Retriever):
     """
     in-memory TF-IDF retriever
-    - just for testing
-    - will swap for embeddings later
+    
     """
 
     def __init__(self, ngram_range: tuple[int, int] = (1, 2), max_features: int | None = 5000):
         self._docs: list[Document] = []
         #vectorizer that converts text into TF-IDF vectors 
-        """
-        vectorizatoin happens by finding all unique words across all docs and assigning a position 
-        for each in unique word vector
-        --> 
-        represent each document as a vector with 1s and 0s in the position where that unique word 
-        is present or not respectively
-        --> 
-        TF-IDF weighting: 
-        term frequency (TF): how common word is
-        inverse document frequency (IDF): how unique word is across docs
-        """
+        
         self._vectorizer = TfidfVectorizer(
             ngram_range=ngram_range,
             max_features=max_features,

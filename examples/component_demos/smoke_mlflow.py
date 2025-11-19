@@ -1,8 +1,5 @@
-# scripts/smoke_mlflow_envfirst.py
-# smoke: set env before import; single visible run
 
 import os
-# env first
 os.environ.setdefault("MLFLOW_TRACKING_URI", "file:./mlruns")
 os.environ.setdefault("MLFLOW_EXPERIMENT", "docstudio")
 

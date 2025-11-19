@@ -1,4 +1,6 @@
 from __future__ import annotations
+import json
+from pathlib import Path
 import faiss, numpy as np
 from typing import Iterable, List, Optional
 from .hf_embedder import HFEmbedder
@@ -33,27 +35,57 @@ class FaissRetriever(Retriever):
         out=[]
         for i,s in zip(ids[0],sims[0]):
             if i==-1: continue
-            out.append(ScoredDocument(self.docs[i],float(s)))
+            out.append(
+                ScoredDocument(
+                    doc=self.docs[i],
+                    score=float(s),
+                    meta={
+                        "rank": len(out),
+                        "raw_score": float(s),
+                        "retriever": "faiss",
+                    }
+                )
+            )
+
         return out
 
     def size(self)->int: return len(self.docs)
 
-    def save(self,p_idx:str,p_meta:str)->None:
-        # save index file + meta lines
-        faiss.write_index(self.idx,p_idx)
-        import json
-        with open(p_meta,"w",encoding="utf-8") as f:
-            for d in self.docs:
-                f.write(json.dumps({"doc_id":d.doc_id,"text":d.text,"meta":d.meta})+"\n")
+    def save(self, p_idx: str | Path, p_meta: str | Path) -> None:
+        """Save index file + meta lines."""
+        p_idx = str(p_idx)
+        p_meta = str(p_meta)
 
-    def load(self,p_idx:str,p_meta:str)->None:
-        # load back from disk
-        import json
-        self.idx=faiss.read_index(p_idx)
+        faiss.write_index(self.idx, p_idx)
+
+        with open(p_meta, "w", encoding="utf-8") as f:
+            for d in self.docs:
+                f.write(
+                    json.dumps(
+                        {
+                            "doc_id": d.doc_id,
+                            "text": d.text,
+                            "meta": d.meta,
+                        }
+                    )
+                    + "\n"
+                )
+
+    def load(self, p_idx: str | Path, p_meta: str | Path) -> None:
+        """Load index and docs from disk."""
+        p_idx = str(p_idx)
+        p_meta = str(p_meta)
+
+        self.idx = faiss.read_index(p_idx)
         self.docs.clear()
-        with open(p_meta,"r",encoding="utf-8") as f:
+
+        with open(p_meta, "r", encoding="utf-8") as f:
             for line in f:
-                o=json.loads(line)
-                self.docs.append(Document(o["doc_id"],o["text"],o.get("meta")))
-        corpus=[d.text for d in self.docs]
-        self._E=self.emb(corpus).astype(np.float32)
+                o = json.loads(line)
+                self.docs.append(Document(o["doc_id"], o["text"], o.get("meta")))
+
+        corpus = [d.text for d in self.docs]
+        if corpus:
+            self._E = self.emb(corpus).astype(np.float32)
+        else:
+            self._E = None

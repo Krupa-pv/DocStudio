@@ -26,7 +26,7 @@ def main():
     client = LLMClient(cfg)
     orch = Orchestrator(
         retriever=retriever,
-        llm=client,
+        llm=None,
         emb_fn=emb,
         cfg=OrchestratorConfig(quality_threshold=0.80, max_attempts=2, use_rewrite_on_retry=True),
         reward_log_path="data/rewards.csv",

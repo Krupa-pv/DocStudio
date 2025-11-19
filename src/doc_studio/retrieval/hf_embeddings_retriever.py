@@ -30,7 +30,14 @@ class HFEmbeddingsRetriever(Retriever):
         q = self.embedder([query])  # (1, D), normalized
         sims = (self._embs @ q.T).ravel()   #cosine similarity
         idx = np.argsort(-sims)[:k]
-        return [ScoredDocument(self._docs[i], float(sims[i])) for i in idx]
+        return [ScoredDocument(self._docs[i], 
+                               float(self._docs[i]),
+                                meta={
+                                    "rank": i,
+                                    "raw_score": float(sims[i]),
+                                    "retriever": "hf-embeddings",
+                                }
+                            ) for i in idx]
 
     def size(self) -> int:
         return len(self._docs)

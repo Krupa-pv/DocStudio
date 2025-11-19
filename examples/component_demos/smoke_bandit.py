@@ -24,10 +24,14 @@ def main():
 
     # Define a few arms (summarizer/critic knobs)
     arms = [
-        Arm("k3_temp0_rewrite", {"k": 3, "temperature": 0.0, "max_tokens": 280, "context_budget_chars": 1400, "use_rewrite_on_retry": True}),
-        Arm("k5_temp0_rewrite", {"k": 5, "temperature": 0.0, "max_tokens": 300, "context_budget_chars": 3000, "use_rewrite_on_retry": True}),
-        Arm("k5_temp03_norewrite", {"k": 5, "temperature": 0.3, "max_tokens": 320, "context_budget_chars": 3000, "use_rewrite_on_retry": False}),
+        Arm("cheap_default", {"k": 3, "temperature": 0.0, "context_budget_chars": 1800,
+                            "use_mmr": True, "mmr_lambda": 0.6, "embedder": emb, "max_tokens": 250}),
+        Arm("balanced_quality", {"k": 5, "temperature": 0.0, "context_budget_chars": 2800,
+                                "use_mmr": True, "mmr_lambda": 0.6, "embedder": emb, "max_tokens": 300}),
+        Arm("high_coverage", {"k": 7, "temperature": 0.2, "context_budget_chars": 3600,
+                            "use_mmr": True, "mmr_lambda": 0.7, "embedder": emb, "max_tokens": 350}),
     ]
+
 
     policy = EpsilonGreedyPolicy(arms=arms, epsilon=0.25, reward_log_path="data/rewards.csv")
     orch = Orchestrator(retriever=retriever, llm=client, cfg=OrchestratorConfig(quality_threshold=0.80, max_attempts=2), reward_log_path="data/rewards.csv")

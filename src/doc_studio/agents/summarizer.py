@@ -58,11 +58,15 @@ class SummarizerAgent:
         return reranker.rerank(query, base_hits, k=self.k)
     
     def _pack_context(self, hits: List[ScoredDocument]) -> str:
-        """Pack top-k docs into context block thats boundeds."""
+        """Pack top-k docs into context block with budget limit"""
         pieces: List[str] = []
         total = 0
         for h in hits[: self.k]:
-            header = f"[{h.doc.doc_id}] (score={h.score:.3f})"
+            meta_str = ""
+            if h.doc.meta:
+                meta_str = " | " + ", ".join(f"{k}: {v}" for k, v in h.doc.meta.items())
+
+            header = f"[{h.doc.doc_id}]{meta_str} (score={h.score:.3f})"
             body = h.doc.text.strip().replace("\n", " ")
             chunk = f"{header}\n{body}\n"
             if total + len(chunk) > self.context_budget_chars:

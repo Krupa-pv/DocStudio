@@ -8,6 +8,8 @@ venv/
 # Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Packaging
 *.egg-info/
@@ -17,7 +19,45 @@ build/
 # IDEs
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Data directories (runtime data, not source code)
+data/
+mlruns/
+*.db
+*.db-journal
+
+# Logs
+*.log
+logs/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Backup files
+*_OLD.md
+*.bak
+*.tmp
+
+# Code archive (not for git)
+.archive/
+
+# Personal notes and documentation (not for git)
+personal/

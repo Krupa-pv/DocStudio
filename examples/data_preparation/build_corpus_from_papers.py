@@ -95,7 +95,7 @@ def main():
     # If you don't have an eval set yet, make a simple one from titles.
     if not EVAL_PATH.exists():
         with open(EVAL_PATH, "w") as fe:
-            # Use each paper title as a query seed; edit later as you like.
+            # Use each paper title as a query seed
             titles = set()
             with open(CORPUS_PATH) as f:
                 for line in f:
